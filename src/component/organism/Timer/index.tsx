@@ -3,9 +3,10 @@ import { Task } from "domain/entity";
 
 // State
 import SelectTimer from "./SelectTimer";
-import { Toolbar, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import PomodoroTimer from "./PomodoroTimer";
 import PomodoroStopWatch from "./PomodoroStopWatch";
+import Msg from "component/atom/Msg";
 
 interface ContentProps {
   userId: string;
@@ -35,15 +36,16 @@ const Timer: FC<ContentProps> = (props) => {
     }
   } else {
     content = (
-      <Typography>
-        <h3>始めるタスクを選んでね！</h3>
-      </Typography>
+      <Msg msg={"始めるタスクを選んでね!"} />
     );
   }
   return (
     <div className="Content" >
-      <Toolbar />
-      {content}
+      <Grid container justifyContent="center" alignItems="center">
+        {content}
+      </Grid>
+      {/* <Toolbar /> */}
+      {/* {content} */}
     </div>
   );
 };

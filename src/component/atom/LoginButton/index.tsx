@@ -17,6 +17,7 @@ interface LoginButtonProps {
   setUserId: (id: string) => void;
 }
 
+
 const LoginButton: FC<LoginButtonProps> = (props) => {
   const setUserId = props.setUserId;
   const handleGoogleLogin = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
@@ -35,6 +36,7 @@ const LoginButton: FC<LoginButtonProps> = (props) => {
         clientId={googleClientId}
         buttonText="Logout"
         onLogoutSuccess={onLogoutSuccess}
+
       />
     );
   }

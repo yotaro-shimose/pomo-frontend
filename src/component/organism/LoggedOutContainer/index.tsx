@@ -1,13 +1,15 @@
 import { FC } from "react";
-import { Toolbar, Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 
 const LoggedOutContainer: FC = () => {
   return (
     <div>
-      <Toolbar />
-      <Typography>
-        <h3>You have to log in first!</h3>
-      </Typography>
+      <Grid container justifyContent="center">
+        <Typography>
+          <h3>You have to log in first!</h3>
+        </Typography>
+
+      </Grid>
     </div>
   );
 };

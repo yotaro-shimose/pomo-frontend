@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles, Theme, Grid } from "@material-ui/core";
 import { CssBaseline } from "@material-ui/core";
 import { createStyles } from "@material-ui/core/styles";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -39,11 +39,17 @@ const Main: FC = () => {
   return (
     < div className={classes.root} >
       <CssBaseline />
-      <Toolbar appTitle={appTitle} LoginButton={LoginButtonWithProperty} />
+      <Grid container>
+        <Grid item xs={12}>
+          <Toolbar appTitle={appTitle} LoginButton={LoginButtonWithProperty} />
+        </Grid>
+        <Grid item xs={12}>
+          <main className={classes.content}>
+            <MainContainer />
+          </main>
+        </Grid>
+      </Grid>
 
-      <main className={classes.content}>
-        <MainContainer />
-      </main>
     </div >
   )
 }

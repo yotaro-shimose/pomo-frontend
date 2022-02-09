@@ -3,11 +3,11 @@ import { taskListState, selectedTaskState } from "component/organism/ConfiguredC
 import { FC, useLayoutEffect } from "react";
 
 // Material UI
-import { Toolbar } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 // Components
 import Sidebar from "component/organism/Sidebar";
-import Content from "component/organism/Timer";
+import Timer from "component/organism/Timer";
 
 // State
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
@@ -22,7 +22,6 @@ import { fetchUserConfig, fetchTask } from "infrastructure/backend_api";
 import { UserConfig } from "domain/value";
 import { Task } from "domain/entity";
 
-const drawerWidth = 240;
 
 export const ConfiguredContainer: FC = () => {
   const userId = useRecoilValue(userIdState);
@@ -43,23 +42,26 @@ export const ConfiguredContainer: FC = () => {
   }, []);
 
 
-
-
   return (
     <div className="LoggedInScreen">
-      <Sidebar
-        drawerWidth={drawerWidth}
-        selectedTaskId={selectedTaskId}
-        setSelectedTask={setSelectedTask}
-        setTimerConfig={setTimerConfig}
-      />
-      <Toolbar />
-      <Content
-        selectedTask={selectedTask}
-        userId={userId}
-        timerConfig={timerConfig}
-        setTimerConfig={setTimerConfig}
-      />
+      <Grid container>
+        <Grid item xs={3}>
+          <Sidebar
+            selectedTaskId={selectedTaskId}
+            setSelectedTask={setSelectedTask}
+            setTimerConfig={setTimerConfig}
+          />
+        </Grid>
+        {/* <Toolbar /> */}
+        <Grid item xs={9}>
+          <Timer
+            selectedTask={selectedTask}
+            userId={userId}
+            timerConfig={timerConfig}
+            setTimerConfig={setTimerConfig}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };

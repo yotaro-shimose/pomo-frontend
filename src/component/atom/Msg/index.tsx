@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import { FC } from 'react';
 
 interface MsgScreenProps {
@@ -6,7 +7,9 @@ interface MsgScreenProps {
 
 const Msg: FC<MsgScreenProps> = (props) => {
   return (
-    <h1>{props.msg}</h1>
+    <Typography>
+      <h3>{props.msg}</h3>
+    </Typography>
   )
 };
 

@@ -12,6 +12,8 @@ import {
   isConfiguredState,
 } from "component/organism/LoggedInContainer/state";
 
+// TODO fetch userConfig using useEffect
+
 const LoggedInContainer: FC = () => {
   const isConfigured = useRecoilValue(isConfiguredState);
   if (isConfigured) {
