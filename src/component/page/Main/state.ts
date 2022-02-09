@@ -1,6 +1,5 @@
 import { atom, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { Timer } from "domain/value";
 
 const { persistAtom } = recoilPersist();
 

@@ -11,8 +11,7 @@ import Button from "@material-ui/core/Button";
 // State
 import { atom } from "recoil";
 
-import { useRecoilState, useRecoilValue } from "recoil";
-import { userIdState } from "component/page/Main/state";
+import { useRecoilState } from "recoil";
 
 // interfaces
 import { TaskList, Calendar } from "domain/entity";
@@ -60,15 +59,16 @@ let configState = atom<State>({
 });
 
 interface ConfigScreenProps {
+  userId: string;
   userConfig: UserConfig;
   setUserConfig(config: UserConfig): void;
 }
 
 const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
+  const userId = props.userId;
   const [taskListList, setTaskListList] = useRecoilState(taskListListState);
   const [calendarList, setCalendarList] = useRecoilState(calendarListState);
   const [state, setState] = useRecoilState(configState);
-  const userId = useRecoilValue(userIdState);
   const sendConfig = async (config: UserConfig) => {
     updateUserConfig(userId, config)
       .then(() => {

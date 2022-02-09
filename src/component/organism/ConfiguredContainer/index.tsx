@@ -10,10 +10,7 @@ import Sidebar from "component/organism/Sidebar";
 import Timer from "component/organism/Timer";
 
 // State
-import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import {
-  userIdState,
-} from "component/page/Main/state";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { userConfigState, timerConfigState } from "component/organism/LoggedInContainer/state";
 // API
 import { fetchUserConfig, fetchTask } from "infrastructure/backend_api";
@@ -22,9 +19,12 @@ import { fetchUserConfig, fetchTask } from "infrastructure/backend_api";
 import { UserConfig } from "domain/value";
 import { Task } from "domain/entity";
 
+interface ConfiguredContainerProps {
+  userId: string;
+}
 
-export const ConfiguredContainer: FC = () => {
-  const userId = useRecoilValue(userIdState);
+export const ConfiguredContainer: FC<ConfiguredContainerProps> = (props) => {
+  const userId = props.userId;
   const setUserConfig = useSetRecoilState(userConfigState);
   const [selectedTask, setSelectedTask] = useRecoilState(selectedTaskState);
   const [timerConfig, setTimerConfig] = useRecoilState(timerConfigState);
