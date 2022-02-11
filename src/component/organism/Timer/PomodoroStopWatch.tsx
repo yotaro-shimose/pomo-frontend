@@ -27,7 +27,7 @@ const PomodoroStopWatch: FC<PomodoroStopWatchProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // eslint-disable-next-line
-  const { seconds, minutes, hours, days, isRunning, start, pause, reset } = useStopwatch({
+  const { seconds, minutes, hours, start, pause } = useStopwatch({
     autoStart: true,
   });
   const dispHours = ('00' + hours).slice(-2);
@@ -52,7 +52,7 @@ const PomodoroStopWatch: FC<PomodoroStopWatchProps> = (props) => {
       <Typography variant="h3">{props.task.name}</Typography>
       <StopWatchScreen hours={dispHours} minutes={dispMinutes} seconds={dispSeconds} />
       <Grid container spacing={6} alignItems="center" justifyContent="center">
-        {buttonDataList.map((buttonData, index) => (
+        {buttonDataList.map((buttonData, _index) => (
           <Grid item>
             <TimerButton func={buttonData.func} buttonName={buttonData.buttonName} />
           </Grid>
@@ -60,7 +60,7 @@ const PomodoroStopWatch: FC<PomodoroStopWatchProps> = (props) => {
       </Grid>
       <ConfirmDialog
         open={open}
-        onClose={handleClose}
+        handleClose={handleClose}
         finishFunc={finish}
         cancelFunc={cancel}
       ></ConfirmDialog>

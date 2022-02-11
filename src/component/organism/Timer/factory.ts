@@ -8,9 +8,9 @@ export const confirmFinishFactory = (pause: () => void, handleOpen: () => void) 
 };
 
 export const timerFinishFactory =
-  (id: string, task: Task, startTime: Date, onClose: () => void) => () => {
+  (id: string, task: Task, startTime: Date, handleClose: () => void) => () => {
     const format = "YYYY-MM-DD hh:mm:ss";
-    onClose();
+    handleClose();
     pushEvent(id, {
       task: task,
       startTime: getStringFromDate(startTime, format),

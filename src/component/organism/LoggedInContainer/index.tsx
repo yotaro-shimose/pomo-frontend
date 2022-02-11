@@ -29,14 +29,14 @@ const LoggedInContainer: FC<LoggedInContainerProps> = (props) => {
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return <InnerLoggedInContainer userId={userId} />
+  return <LoggedInContainerView userId={userId} />
 }
 
 interface InnerLoggedInContainerProps {
   userId: string;
 }
 
-const InnerLoggedInContainer: FC<InnerLoggedInContainerProps> = (props) => {
+const LoggedInContainerView: FC<InnerLoggedInContainerProps> = (props) => {
   const userId = props.userId;
   const isConfigured = useRecoilValue(isConfiguredState);
   if (isConfigured) {

@@ -1,5 +1,5 @@
 // React
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { Typography, Toolbar, Grid } from "@material-ui/core";
 import { useTimer } from "react-timer-hook";
 import TimerButton from "./atom/TimerButton";
@@ -8,8 +8,10 @@ import ConfirmDialog from "./ConfirmDialog";
 import { startTimeState } from "component/organism/LoggedInContainer/state";
 import { cancelFinishFactory, confirmFinishFactory, timerFinishFactory } from "./factory";
 import { Task } from "domain/entity";
+
 // State
-import { useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { openState } from "./state";
 
 interface PomodoroTimerProps {
   userId: string;
@@ -29,35 +31,50 @@ const playNotificationSound = () => {
 };
 
 const PomodoroTimer: FC<PomodoroTimerProps> = (props) => {
-  // Modalの中身作成
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
-  const [startTime, setStartTime] = useRecoilState(startTimeState);
+  const setStartTime = useSetRecoilState(startTimeState);
   useEffect(() => {
     setStartTime(new Date());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const time = new Date();
-  time.setMinutes(time.getMinutes() + props.timerConfig);
+  const Inner: FC = () => InnerPomodoroTimer(props);
 
+  return (
+    <Inner />
+  );
+};
+
+// TODO SelectedTimerの情報を１つの情報に固める
+
+const InnerPomodoroTimer: FC<PomodoroTimerProps> = (props) => {
+  const setOpen = useSetRecoilState(openState);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const startTime = useRecoilValue(startTimeState);
+  const open = useRecoilValue(openState);
+
+  // onExpireの定義
+  const finish = timerFinishFactory(props.userId, props.task, startTime, handleClose);
   const onExpire = () => {
     playNotificationSound();
-    handleOpen();
+    finish();
   };
 
-  // eslint-disable-next-line
-  const { seconds, minutes, hours, days, isRunning, start, pause, resume, restart } = useTimer({
+  // Timer定義
+  const time = new Date();
+  time.setMinutes(time.getMinutes() + props.timerConfig);
+  const { seconds, minutes, start, pause } = useTimer({
     autoStart: true,
     expiryTimestamp: time,
     onExpire: onExpire,
   });
+
+  const cancel = cancelFinishFactory(start, handleClose);
+  const confirmFinish = confirmFinishFactory(pause, handleOpen);
   const dispMinutes = ("00" + minutes).slice(-2);
   const dispSeconds = ("00" + seconds).slice(-2);
-
-  const confirmFinish = confirmFinishFactory(pause, handleOpen);
   const finishName = "finish";
 
   const buttonDataList = [
@@ -67,16 +84,14 @@ const PomodoroTimer: FC<PomodoroTimerProps> = (props) => {
     },
   ];
 
-  const finish = timerFinishFactory(props.userId, props.task, startTime, handleClose);
-  const cancel = cancelFinishFactory(start, handleClose);
-
   return (
+
     <div className="PomodoroTimer">
       <Toolbar />
       <Typography variant="h3">{props.task.name}</Typography>
       <TimerScreen minutes={dispMinutes} seconds={dispSeconds} />
       <Grid container spacing={6} alignItems="center" justifyContent="center">
-        {buttonDataList.map((buttonData, index) => (
+        {buttonDataList.map((buttonData, _index) => (
           <Grid item>
             <TimerButton func={buttonData.func} buttonName={buttonData.buttonName} />
           </Grid>
@@ -84,11 +99,12 @@ const PomodoroTimer: FC<PomodoroTimerProps> = (props) => {
       </Grid>
       <ConfirmDialog
         open={open}
-        onClose={handleClose}
+        handleClose={handleClose}
         finishFunc={finish}
         cancelFunc={cancel}
       ></ConfirmDialog>
     </div>
-  );
-};
+  )
+}
+
 export default PomodoroTimer;

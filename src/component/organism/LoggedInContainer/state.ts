@@ -1,9 +1,10 @@
-import { atom, selector } from "recoil";
+import { atom, selector, selectorFamily } from "recoil";
 import { UserConfig, Timer } from "domain/value";
+
 
 export const userConfigState = atom<UserConfig>({
   key: "userConfig",
-  default: { calendarId: "", taskListId: "" },
+  default: { calendarId: null, taskListId: null },
 });
 
 export const isConfiguredState = selector<boolean>({

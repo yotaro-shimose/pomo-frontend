@@ -1,7 +1,7 @@
 // React
 import { FC } from "react";
 
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles, Theme, Grid } from "@material-ui/core";
 import { createStyles } from "@material-ui/core/styles";
 
 interface TimerScreenProps {
@@ -22,8 +22,10 @@ const TimerScreen: FC<TimerScreenProps> = (props) => {
     const classes = useStyles();
     return (
         <div className={classes.TimerScreen}>
-            <span>{props.minutes}</span>:
-            <span>{props.seconds}</span>
+            <Grid container justifyContent="center">
+                <span>{props.minutes}</span>:
+                <span>{props.seconds}</span>
+            </Grid>
         </div>
     )
 }

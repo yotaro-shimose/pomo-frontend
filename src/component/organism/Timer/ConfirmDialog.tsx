@@ -3,7 +3,7 @@ import TimerButton from "./atom/TimerButton";
 import { Grid, Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 interface ConfirmDialogProps {
     open: boolean;
-    onClose(): void;
+    handleClose(): void;
     finishFunc(): void;
     cancelFunc(): void;
 }
@@ -12,7 +12,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = (props) => {
     return (
         <Dialog
             open={props.open}
-            onClose={props.onClose}
+            onClose={props.handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             fullWidth={true}

@@ -45,7 +45,7 @@ export const ConfiguredContainer: FC<ConfiguredContainerProps> = (props) => {
   return (
     <div className="LoggedInScreen">
       <Grid container>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Sidebar
             selectedTaskId={selectedTaskId}
             setSelectedTask={setSelectedTask}
@@ -53,7 +53,7 @@ export const ConfiguredContainer: FC<ConfiguredContainerProps> = (props) => {
           />
         </Grid>
         {/* <Toolbar /> */}
-        <Grid item xs={9}>
+        <Grid item xs={10}>
           <Timer
             selectedTask={selectedTask}
             userId={userId}

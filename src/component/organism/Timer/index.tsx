@@ -8,13 +8,13 @@ import PomodoroTimer from "./PomodoroTimer";
 import PomodoroStopWatch from "./PomodoroStopWatch";
 import Msg from "component/atom/Msg";
 
-interface ContentProps {
+interface TimerProps {
   userId: string;
   selectedTask: Task | null;
   timerConfig: number | null;
   setTimerConfig(timerConfig: number | null): void;
 }
-const Timer: FC<ContentProps> = (props) => {
+const Timer: FC<TimerProps> = (props) => {
   let content;
   if (props.selectedTask) {
     if (props.timerConfig != null) {
@@ -40,7 +40,7 @@ const Timer: FC<ContentProps> = (props) => {
     );
   }
   return (
-    <div className="Content" >
+    <div className="Timer" >
       <Grid container justifyContent="center" alignItems="center">
         {content}
       </Grid>
