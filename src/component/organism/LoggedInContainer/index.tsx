@@ -1,5 +1,5 @@
 // React
-import { FC, useLayoutEffect } from "react";
+import { FC } from "react";
 
 // Component
 import ConfiguredContainer from "component/organism/ConfiguredContainer";
@@ -7,43 +7,28 @@ import UnconfiguredContainer from "component/organism/UnconfiguredContainer";
 
 
 // State
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import {
   isConfiguredState, userConfigState
 } from "component/organism/LoggedInContainer/state";
-import { fetchUserConfig } from "infrastructure/backend_api";
-import { UserConfig } from "domain/value";
+import { userIdState } from "component/page/Main/state";
 
-interface LoggedInContainerProps {
-  userId: string;
-}
 
-const LoggedInContainer: FC<LoggedInContainerProps> = (props) => {
-  const userId = props.userId;
-  const setUserConfig = useSetRecoilState(userConfigState);
-  useLayoutEffect(() => {
-    fetchUserConfig(userId).then((userConfig: UserConfig) => {
-      setUserConfig(userConfig);
-    }).catch((error: any) => {
-      console.log(error);
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return <LoggedInContainerView userId={userId} />
-}
 
-interface InnerLoggedInContainerProps {
-  userId: string;
-}
-
-const LoggedInContainerView: FC<InnerLoggedInContainerProps> = (props) => {
-  const userId = props.userId;
-  const isConfigured = useRecoilValue(isConfiguredState);
-  if (isConfigured) {
-    return <ConfiguredContainer userId={userId} />;
+const LoggedInContainer: FC = () => {
+  const userId = useRecoilValue(userIdState);
+  const userConfigLoadable = useRecoilValueLoadable(userConfigState);
+  const isConfiguredLoadable = useRecoilValueLoadable(isConfiguredState);
+  if (userConfigLoadable.state == "hasValue" && isConfiguredLoadable.state == "hasValue") {
+    const isConfigured = isConfiguredLoadable.contents;
+    if (isConfigured) {
+      return <ConfiguredContainer userId={userId} />;
+    } else {
+      return <UnconfiguredContainer userId={userId} />;
+    }
   } else {
-    return <UnconfiguredContainer userId={userId} />;
+    return null
   }
-};
+}
 
 export default LoggedInContainer;

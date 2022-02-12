@@ -1,6 +1,6 @@
-import { taskListState, selectedTaskState } from "component/organism/ConfiguredContainer/state";
+import { selectedTaskState } from "component/organism/ConfiguredContainer/state";
 // React
-import { FC, useLayoutEffect } from "react";
+import { FC } from "react";
 
 // Material UI
 import { Grid } from "@material-ui/core";
@@ -10,14 +10,8 @@ import Sidebar from "component/organism/Sidebar";
 import Timer from "component/organism/Timer";
 
 // State
-import { useSetRecoilState, useRecoilState } from "recoil";
-import { userConfigState, timerConfigState } from "component/organism/LoggedInContainer/state";
-// API
-import { fetchUserConfig, fetchTask } from "infrastructure/backend_api";
-
-// Interfaces
-import { UserConfig } from "domain/value";
-import { Task } from "domain/entity";
+import { useRecoilState } from "recoil";
+import { timerConfigState } from "component/organism/LoggedInContainer/state";
 
 interface ConfiguredContainerProps {
   userId: string;
@@ -25,25 +19,14 @@ interface ConfiguredContainerProps {
 
 export const ConfiguredContainer: FC<ConfiguredContainerProps> = (props) => {
   const userId = props.userId;
-  const setUserConfig = useSetRecoilState(userConfigState);
   const [selectedTask, setSelectedTask] = useRecoilState(selectedTaskState);
   const [timerConfig, setTimerConfig] = useRecoilState(timerConfigState);
-  const setTaskList = useSetRecoilState(taskListState);
-
   const selectedTaskId = selectedTask ? selectedTask.id : null;
-  useLayoutEffect(() => {
-    fetchUserConfig(userId).then((userConfig: UserConfig) => {
-      setUserConfig(userConfig);
-    });
-    fetchTask(userId).then((taskList: Task[]) => {
-      setTaskList(taskList);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
 
 
   return (
-    <div className="LoggedInScreen">
+    <div className="ConfiguredContainer">
       <Grid container>
         <Grid item xs={2}>
           <Sidebar
@@ -52,7 +35,6 @@ export const ConfiguredContainer: FC<ConfiguredContainerProps> = (props) => {
             setTimerConfig={setTimerConfig}
           />
         </Grid>
-        {/* <Toolbar /> */}
         <Grid item xs={10}>
           <Timer
             selectedTask={selectedTask}

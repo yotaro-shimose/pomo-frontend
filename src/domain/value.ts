@@ -1,8 +1,8 @@
 import { Task } from "./entity";
 
 export interface UserConfig {
-  taskListId: string | null;
-  calendarId: string | null;
+  taskListId: string;
+  calendarId: string;
 }
 
 export interface Token {
@@ -21,3 +21,7 @@ export interface Event {
   startTime: string,
   endTime: string
 }
+
+export type UserId = string;
+export type TaskListId = string;
+export type CalendarId = string;

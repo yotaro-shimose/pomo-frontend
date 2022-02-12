@@ -1,26 +1,42 @@
-import { atom, selector, selectorFamily } from "recoil";
-import { UserConfig, Timer } from "domain/value";
+import { atom, selector, useRecoilRefresher_UNSTABLE } from "recoil";
+import { UserConfig, Timer, UserId } from "domain/value";
+import { userIdState } from "component/page/Main/state";
+import { fetchUserConfig, updateUserConfig } from "infrastructure/backend_api";
 
-
-export const userConfigState = atom<UserConfig>({
-  key: "userConfig",
-  default: { calendarId: null, taskListId: null },
+const rawUserConfigState = selector<UserConfig | null>({
+  key: "rawUserConfig",
+  get: async ({ get }) => {
+    const userId = get(userIdState);
+    const userConfig = await fetchUserConfig(userId);
+    return userConfig;
+  }
 });
 
 export const isConfiguredState = selector<boolean>({
   key: "isConfigured",
-  get: ({ get }) => {
-    const userProfile = get(userConfigState);
-    if (userProfile.calendarId === null && userProfile.taskListId === null) {
-      return false;
-    }
-    if (userProfile.calendarId !== "" && userProfile.taskListId !== "") {
-      return true;
-    }
-    return false;
-  },
-});
+  get: ({ get }) => get(rawUserConfigState) !== null,
+})
 
+export const userConfigState = selector<UserConfig>({
+  key: "userConfig",
+  get: ({ get }) => {
+    const userConfig = get(rawUserConfigState);
+    if (userConfig) {
+      return userConfig;
+    } else {
+      throw Error("User is not yet configured");
+    }
+  }
+})
+
+export const useUpdateUserConfig = (id: UserId) => {
+  const refresh = useRecoilRefresher_UNSTABLE();
+  const userConfigRefresh = () => refresh(userConfigState);
+  return (config: UserConfig) => {
+    return updateUserConfig(id, config).then(() => userConfigRefresh()).catch(() => { throw Error("Could not load UserConfig") });
+  }
+
+}
 
 export const timerState = atom<Timer | null>({
   key: "timer",

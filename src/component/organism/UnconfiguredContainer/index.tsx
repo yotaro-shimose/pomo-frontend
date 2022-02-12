@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import ConfigContainer from "component/organism/ConfigContainer";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userConfigState } from "component/organism/LoggedInContainer/state";
 
 interface UnconfiguredContainerProps {
@@ -9,8 +9,8 @@ interface UnconfiguredContainerProps {
 
 const UnconfiguredContainer: FC<UnconfiguredContainerProps> = (props) => {
   const userId = props.userId;
-  const [userConfig, setUserConfig] = useRecoilState(userConfigState);
-  return <ConfigContainer userId={userId} userConfig={userConfig} setUserConfig={setUserConfig} />
+  const userConfig = useRecoilValue(userConfigState);
+  return <ConfigContainer userId={userId} userConfig={userConfig} />
 }
 
 export default UnconfiguredContainer;

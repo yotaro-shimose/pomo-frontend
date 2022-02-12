@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { makeStyles, Theme, Grid } from "@material-ui/core";
 import { CssBaseline } from "@material-ui/core";
 import { createStyles } from "@material-ui/core/styles";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { isLoggedInState, userIdState } from "./state";
 import LoginButton from "component/atom/LoginButton";
 import Toolbar from "component/atom/Toolbar";
@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
 const Main: FC = () => {
   const classes = useStyles();
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [userId, setUserId] = useRecoilState(userIdState);
+  const setUserId = useSetRecoilState(userIdState);
   const appTitle = "YosamasuTimer";
   const LoginButtonWithProperty: FC = () => <LoginButton isLoggedIn={isLoggedIn} setUserId={setUserId} />;
   const MainContainer: FC = () => {
     if (isLoggedIn) {
-      return <LoggedInContainer userId={userId} />;
+      return <LoggedInContainer />;
     } else {
       return <LoggedOutContainer />;
     }
