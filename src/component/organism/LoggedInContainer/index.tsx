@@ -19,7 +19,7 @@ const LoggedInContainer: FC = () => {
   const userId = useRecoilValue(userIdState);
   const userConfigLoadable = useRecoilValueLoadable(userConfigState);
   const isConfiguredLoadable = useRecoilValueLoadable(isConfiguredState);
-  if (userConfigLoadable.state == "hasValue" && isConfiguredLoadable.state == "hasValue") {
+  if (userConfigLoadable.state === "hasValue" && isConfiguredLoadable.state === "hasValue") {
     const isConfigured = isConfiguredLoadable.contents;
     if (isConfigured) {
       return <ConfiguredContainer userId={userId} />;
