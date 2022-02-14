@@ -44,8 +44,6 @@ const Timer: FC<TimerProps> = (props) => {
       <Grid container justifyContent="center" alignItems="center">
         {content}
       </Grid>
-      {/* <Toolbar /> */}
-      {/* {content} */}
     </div>
   );
 };

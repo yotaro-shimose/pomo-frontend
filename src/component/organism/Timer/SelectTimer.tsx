@@ -40,9 +40,9 @@ const SelectTimer: FC<SelectTimerProps> = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={6} alignItems="center" justifyContent="center">
-        {buttonDataList.map((buttonData, _index) => (
+        {buttonDataList.map((buttonData, index) => (
           <Grid item>
-            <TimerButton func={buttonData.func} buttonName={buttonData.buttonName} />
+            <TimerButton func={buttonData.func} buttonName={buttonData.buttonName} key={index} />
           </Grid>
         ))}
       </Grid>

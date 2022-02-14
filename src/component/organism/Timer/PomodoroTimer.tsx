@@ -73,6 +73,8 @@ const InnerPomodoroTimer: FC<PomodoroTimerProps> = (props) => {
 
   const cancel = cancelFinishFactory(start, handleClose);
   const confirmFinish = confirmFinishFactory(pause, handleOpen);
+
+
   const dispMinutes = ("00" + minutes).slice(-2);
   const dispSeconds = ("00" + seconds).slice(-2);
   const finishName = "finish";

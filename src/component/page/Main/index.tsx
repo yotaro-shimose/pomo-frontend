@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { makeStyles, Theme, Grid } from "@material-ui/core";
 import { CssBaseline } from "@material-ui/core";
 import { createStyles } from "@material-ui/core/styles";
-import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoggedInState, userIdState } from "./state";
 import LoginButton from "component/atom/LoginButton";
 import Toolbar from "component/atom/Toolbar";
@@ -48,7 +48,6 @@ const Main: FC = () => {
           </main>
         </Grid>
       </Grid>
-
     </div >
   )
 }

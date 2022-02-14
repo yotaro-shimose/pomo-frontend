@@ -9,7 +9,7 @@ interface TimerScreenProps {
     seconds: string
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         TimerScreen: {
             fontSize: "9rem"

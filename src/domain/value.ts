@@ -25,3 +25,4 @@ export interface Event {
 export type UserId = string;
 export type TaskListId = string;
 export type CalendarId = string;
+export type TaskId = string;
