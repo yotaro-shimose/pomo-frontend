@@ -16,7 +16,7 @@ const Toolbar: FC<TitledToolbarProps> = (props) => {
       <AppBar position="relative">
         <MaterialToolbar>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Typography variant="h6" noWrap>
                 <h3>{appTitle}</h3>
               </Typography>

@@ -1,4 +1,4 @@
-import { selectedTaskState } from "component/organism/ConfiguredContainer/state";
+import { currentTimerState, isTimerSetState, selectedTaskState } from "component/organism/ConfiguredContainer/state";
 // React
 import { FC } from "react";
 
@@ -7,40 +7,51 @@ import { Grid } from "@material-ui/core";
 
 // Components
 import Sidebar from "component/organism/Sidebar";
-import Timer from "component/organism/Timer";
+import Timer from "component/organism/ConfiguredContainer/Timer";
 
 // State
-import { useRecoilState } from "recoil";
-import { timerConfigState } from "component/organism/LoggedInContainer/state";
+import { useRecoilState, useRecoilValue } from "recoil";
+import TimerStateContainer from "./TimerStateContainer";
 
 interface ConfiguredContainerProps {
   userId: string;
 }
 
+interface ConditionedTimerStateContainerProps {
+  isTimerSet: boolean;
+}
+
 export const ConfiguredContainer: FC<ConfiguredContainerProps> = (props) => {
   const userId = props.userId;
   const [selectedTask, setSelectedTask] = useRecoilState(selectedTaskState);
-  const [timerConfig, setTimerConfig] = useRecoilState(timerConfigState);
   const selectedTaskId = selectedTask ? selectedTask.id : null;
-
-
+  const isTimerSet = useRecoilValue(isTimerSetState);
+  const [currentTimer, setCurrentTimer] = useRecoilState(currentTimerState);
+  const ConditionedTimerStateContainer: FC<ConditionedTimerStateContainerProps> = (props) => {
+    if (props.isTimerSet) {
+      return <TimerStateContainer />
+    } else {
+      return null;
+    }
+  };
 
   return (
     <div className="ConfiguredContainer">
+      <ConditionedTimerStateContainer isTimerSet={isTimerSet} />
       <Grid container>
         <Grid item xs={2}>
           <Sidebar
             selectedTaskId={selectedTaskId}
             setSelectedTask={setSelectedTask}
-            setTimerConfig={setTimerConfig}
           />
         </Grid>
         <Grid item xs={10}>
           <Timer
-            selectedTask={selectedTask}
             userId={userId}
-            timerConfig={timerConfig}
-            setTimerConfig={setTimerConfig}
+            selectedTask={selectedTask}
+            setSelectedTask={setSelectedTask}
+            currentTimer={currentTimer}
+            setCurrentTimer={setCurrentTimer}
           />
         </Grid>
       </Grid>

@@ -9,7 +9,6 @@ import { taskListState } from "../ConfiguredContainer/state";
 interface SideBarProps {
   selectedTaskId: String | null;
   setSelectedTask(task: Task | null): void;
-  setTimerConfig(timerConfig: number | null): void;
 }
 
 const SideBar: FC<SideBarProps> = (props: SideBarProps) => {
@@ -26,7 +25,6 @@ const SideBar: FC<SideBarProps> = (props: SideBarProps) => {
               selected={task.id === selectedTaskId}
               onClick={() => {
                 props.setSelectedTask(task);
-                props.setTimerConfig(null);
               }
               }>
               <ListItemText primary={task.name} />

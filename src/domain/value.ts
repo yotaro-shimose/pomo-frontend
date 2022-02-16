@@ -22,6 +22,13 @@ export interface Event {
   endTime: string
 }
 
+export interface CurrentTimer {
+  task: Task;
+  start: Date;
+  lengthInSec: number;
+}
+
+
 export type UserId = string;
 export type TaskListId = string;
 export type CalendarId = string;
