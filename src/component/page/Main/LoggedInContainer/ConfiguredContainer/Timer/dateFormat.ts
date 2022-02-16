@@ -23,3 +23,8 @@ export const getStringFromDate = (date: Date, format_str: string) => {
 
     return format_str;
 };
+
+export const formatDate = (date: Date) => {
+    const format = "YYYY-MM-DD hh:mm:ss";
+    return getStringFromDate(date, format);
+}

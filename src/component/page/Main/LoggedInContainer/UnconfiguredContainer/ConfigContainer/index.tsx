@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from "react";
+import { FC } from "react";
 
 // Material UI
 import Radio from "@material-ui/core/Radio";
@@ -9,125 +9,64 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 
 // State
-import { atom } from "recoil";
-
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { taskListListState, calendarListState, onlineConfigState, StepList } from "./state";
 
 // interfaces
-import { TaskList, Calendar } from "domain/entity";
 import { UserConfig } from "domain/value";
 
 // endpoint
-import Msg from "component/atom/Msg";
+import Msg from "component/shared/Msg";
 
 // API
-import { fetchTaskList, fetchCalendar, updateUserConfig } from "infrastructure/backend_api";
+import { useUpdateUserConfig } from "../../state";
 
-
-const taskListListState = atom<TaskList[]>({
-  key: "taskList",
-  default: [],
-});
-
-const calendarListState = atom<Calendar[]>({
-  key: "calendar",
-  default: [],
-});
-
-// Define Enum
-const StepList = {
-  TASKLIST: "TASKLIST",
-  CALENDAR: "CALENDAR",
-  SUCCESS: "SUCCESS",
-  FAILURE: "FAILURE",
-} as const;
-type Step = typeof StepList[keyof typeof StepList];
-
-interface State {
-  step: Step;
-  taskListId: string | null;
-  calendarId: string | null;
-}
-
-let configState = atom<State>({
-  key: "configState",
-  default: {
-    step: StepList.TASKLIST,
-    taskListId: "",
-    calendarId: "",
-  },
-});
 
 interface ConfigScreenProps {
   userId: string;
   userConfig: UserConfig;
-  setUserConfig(config: UserConfig): void;
 }
 
 const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
   const userId = props.userId;
-  const [taskListList, setTaskListList] = useRecoilState(taskListListState);
-  const [calendarList, setCalendarList] = useRecoilState(calendarListState);
-  const [state, setState] = useRecoilState(configState);
-  const sendConfig = async (config: UserConfig) => {
-    updateUserConfig(userId, config)
-      .then(() => {
-        setState({ ...state, step: StepList.SUCCESS });
-        props.setUserConfig(config);
-      })
-      .catch(() => {
-        setState({ ...state, step: StepList.FAILURE });
-      });
-  };
+  const taskListList = useRecoilValue(taskListListState);
+  const calendarList = useRecoilValue(calendarListState);
+  const [onlineConfig, setOnlineConfig] = useRecoilState(onlineConfigState);
+  const updateUserConfig = useUpdateUserConfig(userId);
 
-  const initState = useCallback(() => {
-    fetchTaskList(userId).then((taskListList: TaskList[]) => {
-      setTaskListList(taskListList);
-    });
-    fetchCalendar(userId).then((calendarList: Calendar[]) => {
-      setCalendarList(calendarList);
-    });
-    const initState = {
-      ...state,
-      taskListId: props.userConfig.taskListId,
-      calendarId: props.userConfig.calendarId,
-    };
-    setState(initState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    initState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const nextStep = () => {
-    if (state.step !== StepList.TASKLIST) {
+    if (onlineConfig.step !== StepList.TASKLIST) {
       throw Error("Unexpected Step!");
     }
-    const nextState = { ...state, step: StepList.CALENDAR };
-    setState(nextState);
+    const nextState = { ...onlineConfig, step: StepList.CALENDAR };
+    setOnlineConfig(nextState);
   };
   const handleChange: (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => void =
     (key) => (event) => {
       const target = event.target as HTMLInputElement;
       const nextState = {
-        ...state,
+        ...onlineConfig,
         [key]: target.value,
       };
-      setState(nextState);
+      setOnlineConfig(nextState);
     };
   const hundleSubmit: () => void = () => {
     const config: UserConfig = {
-      taskListId: state.taskListId,
-      calendarId: state.calendarId,
+      taskListId: onlineConfig.taskListId,
+      calendarId: onlineConfig.calendarId,
     };
-    sendConfig(config);
+    updateUserConfig(config).then(() => {
+      setOnlineConfig({ ...onlineConfig, step: StepList.SUCCESS })
+    }).catch(() => {
+      setOnlineConfig({ ...onlineConfig, step: StepList.FAILURE })
+    });
   };
 
   const taskListForm = (
     <div className="taskListForm">
       <FormControl component="label">
         <FormLabel component="label">Select Task List</FormLabel>
-        <RadioGroup name="TaskList" value={state.taskListId} onChange={handleChange("taskListId")}>
+        <RadioGroup name="TaskList" value={onlineConfig.taskListId} onChange={handleChange("taskListId")}>
           {taskListList.map((taskList, idx) => {
             return (
               <FormControlLabel
@@ -135,7 +74,7 @@ const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
                 value={taskList.id}
                 control={<Radio />}
                 label={taskList.summary}
-                checked={taskList.id === state.taskListId}
+                checked={taskList.id === onlineConfig.taskListId}
               />
             );
           })}
@@ -148,7 +87,7 @@ const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
     <div className="calendarForm">
       <FormControl component="label">
         <FormLabel component="label">Select Calendar</FormLabel>
-        <RadioGroup name="Calendar" value={state.calendarId} onChange={handleChange("calendarId")}>
+        <RadioGroup name="Calendar" value={onlineConfig.calendarId} onChange={handleChange("calendarId")}>
           {calendarList.map((calendar, idx) => {
             return (
               <FormControlLabel
@@ -156,7 +95,7 @@ const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
                 value={calendar.id}
                 control={<Radio />}
                 label={calendar.summary}
-                checked={calendar.id === state.calendarId}
+                checked={calendar.id === onlineConfig.calendarId}
               />
             );
           })}
@@ -168,7 +107,7 @@ const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
   const successScreen = <Msg msg="Successfully Configured Your Calendar and Task List!" />;
   const failureScreen = <Msg msg="Configuration Failure. Please Contact Us." />;
   const content = (() => {
-    switch (state.step) {
+    switch (onlineConfig.step) {
       case StepList.TASKLIST: {
         return taskListForm;
       }

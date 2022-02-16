@@ -74,7 +74,11 @@ export const fetchUserConfig = async (id: string) => {
   const calendarList = await axios
     .get(`${BackendURL}/userConfig`, get_config(id))
     .then((res: AxiosResponse<UserConfig>) => {
-      return res.data;
+      if (res.data.taskListId === null && res.data.calendarId === null) {
+        return null;
+      } else {
+        return res.data;
+      }
     });
   return calendarList;
 };

@@ -6,7 +6,7 @@ const LoggedOutContainer: FC = () => {
     <div>
       <Grid container justifyContent="center">
         <Typography>
-          <h3>You have to log in first!</h3>
+          <h3>まずログインしてね!</h3>
         </Typography>
 
       </Grid>

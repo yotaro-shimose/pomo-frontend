@@ -1,16 +1,25 @@
 import { FC } from "react";
 import { Task } from "domain/entity";
 import { Grid } from "@material-ui/core";
-import TimerButton from "./atom/TimerButton";
+import TimerButton from "../../../../../shared/TimerButton";
+import { CurrentTimer } from "domain/value";
 
 interface SelectTimerProps {
-  setTimerConfig(x: number): void;
   task: Task;
+  setCurrentTimer(currentTimer: CurrentTimer): void;
+  clearSelectedTask(): void;
 }
 
 const SelectTimer: FC<SelectTimerProps> = (props) => {
-  const setTimer = (x: number) => () => {
-    props.setTimerConfig(x);
+  const setTimer = (lengthInMin: number) => () => {
+    const start = new Date();
+    const currentTimer = {
+      task: props.task,
+      start: start,
+      lengthInSec: lengthInMin * 60,
+    }
+    props.clearSelectedTask();
+    props.setCurrentTimer(currentTimer);
   };
 
   const buttonDataList = [
@@ -26,10 +35,6 @@ const SelectTimer: FC<SelectTimerProps> = (props) => {
       func: setTimer(30),
       buttonName: "30分",
     },
-    {
-      func: setTimer(0),
-      buttonName: "∞",
-    },
   ];
 
   return (
@@ -40,9 +45,9 @@ const SelectTimer: FC<SelectTimerProps> = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={6} alignItems="center" justifyContent="center">
-        {buttonDataList.map((buttonData, _index) => (
+        {buttonDataList.map((buttonData, index) => (
           <Grid item>
-            <TimerButton func={buttonData.func} buttonName={buttonData.buttonName} />
+            <TimerButton func={buttonData.func} buttonName={buttonData.buttonName} key={index} />
           </Grid>
         ))}
       </Grid>

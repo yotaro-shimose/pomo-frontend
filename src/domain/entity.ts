@@ -1,14 +1,17 @@
+import { CalendarId, TaskId, TaskListId } from "./value";
+
 export interface Task {
-  id: string;
+  id: TaskId;
   name: string;
 }
 
 export interface Calendar {
+  id: CalendarId;
   summary: string;
-  id: string;
 }
 
 export interface TaskList {
-  id: string;
+  id: TaskListId;
   summary: string;
 }
+
