@@ -35,7 +35,6 @@ export const useUpdateUserConfig = (id: UserId) => {
   return (config: UserConfig) => {
     return updateUserConfig(id, config).then(() => userConfigRefresh()).catch(() => { throw Error("Could not load UserConfig") });
   }
-
 }
 
 export const timerState = atom<Timer | null>({
@@ -52,4 +51,3 @@ export const timerConfigState = atom<number | null>({
   key: "timerConfig",
   default: null,
 });
-

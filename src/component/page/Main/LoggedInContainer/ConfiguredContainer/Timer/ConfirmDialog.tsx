@@ -1,5 +1,5 @@
 import { FC } from "react";
-import TimerButton from "./atom/TimerButton";
+import TimerButton from "../../../../../shared/TimerButton";
 import { Grid, Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 
 interface ConfirmDialogProps {

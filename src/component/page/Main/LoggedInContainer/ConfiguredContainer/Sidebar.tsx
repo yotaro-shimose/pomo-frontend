@@ -4,7 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Task } from "domain/entity";
 import { useRecoilValueLoadable } from "recoil";
-import { taskListState } from "../ConfiguredContainer/state";
+import { taskListState } from "./state";
 
 interface SideBarProps {
   selectedTaskId: String | null;

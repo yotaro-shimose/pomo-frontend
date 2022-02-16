@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Task } from "domain/entity";
 import { Grid } from "@material-ui/core";
-import TimerButton from "./atom/TimerButton";
+import TimerButton from "../../../../../shared/TimerButton";
 import { CurrentTimer } from "domain/value";
 
 interface SelectTimerProps {

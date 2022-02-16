@@ -5,7 +5,7 @@ import { Task } from "domain/entity";
 import SelectTimer from "./SelectTimer";
 import { Grid } from "@material-ui/core";
 import PomodoroTimer from "./PomodoroTimer";
-import Msg from "component/atom/Msg";
+import Msg from "component/shared/Msg";
 import { CurrentTimer } from "domain/value";
 
 interface TimerProps {

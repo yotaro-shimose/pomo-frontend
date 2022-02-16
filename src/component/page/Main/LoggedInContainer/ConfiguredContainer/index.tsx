@@ -1,4 +1,4 @@
-import { currentTimerState, isTimerSetState, selectedTaskState } from "component/organism/ConfiguredContainer/state";
+import { currentTimerState, isTimerSetState, selectedTaskState } from "component/page/Main/LoggedInContainer/ConfiguredContainer/state";
 // React
 import { FC } from "react";
 
@@ -6,12 +6,12 @@ import { FC } from "react";
 import { Grid } from "@material-ui/core";
 
 // Components
-import Sidebar from "component/organism/Sidebar";
-import Timer from "component/organism/ConfiguredContainer/Timer";
+import Sidebar from "component/page/Main/LoggedInContainer/ConfiguredContainer/Sidebar";
+import Timer from "component/page/Main/LoggedInContainer/ConfiguredContainer/Timer";
 
 // State
 import { useRecoilState, useRecoilValue } from "recoil";
-import TimerStateContainer from "./TimerStateContainer";
+import TimerStateContainer from "../TimerStateContainer";
 
 interface ConfiguredContainerProps {
   userId: string;

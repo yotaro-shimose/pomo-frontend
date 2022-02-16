@@ -2,15 +2,15 @@
 import { FC } from "react";
 
 // Component
-import ConfiguredContainer from "component/organism/ConfiguredContainer";
-import UnconfiguredContainer from "component/organism/UnconfiguredContainer";
+import ConfiguredContainer from "component/page/Main/LoggedInContainer/ConfiguredContainer";
+import UnconfiguredContainer from "component/page/Main/LoggedInContainer/UnconfiguredContainer";
 
 
 // State
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import {
   isConfiguredState, userConfigState
-} from "component/organism/LoggedInContainer/state";
+} from "component/page/Main/LoggedInContainer/state";
 import { userIdState } from "component/page/Main/state";
 
 

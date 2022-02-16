@@ -2,10 +2,9 @@ import { Grid, Toolbar, Typography } from "@material-ui/core";
 import { FC, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { currentTimerState, useClearTimer, useFinishTimer } from "../state";
-import TimerButton from "./atom/TimerButton";
+import TimerButton from "../../../../../shared/TimerButton";
 import TimerScreen from "./TimerScreen";
 import ConfirmDialog from "./ConfirmDialog";
-
 
 interface PomodoroTimerProps {
   userId: string;

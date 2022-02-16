@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { CurrentTimer } from "domain/value";
-import { currentTimerState, useFinishTimer } from "../state";
+import { currentTimerState, useFinishTimer } from "./ConfiguredContainer/state";
 
 
 

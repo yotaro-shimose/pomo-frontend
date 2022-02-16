@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import ConfigContainer from "component/organism/ConfigContainer";
+import ConfigContainer from "component/page/Main/LoggedInContainer/UnconfiguredContainer/ConfigContainer";
 import { useRecoilValue } from "recoil";
-import { userConfigState } from "component/organism/LoggedInContainer/state";
+import { userConfigState } from "component/page/Main/LoggedInContainer/state";
 
 interface UnconfiguredContainerProps {
   userId: string;

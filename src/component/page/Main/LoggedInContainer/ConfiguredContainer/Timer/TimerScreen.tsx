@@ -5,7 +5,6 @@ import { CurrentTimer } from "domain/value";
 
 const RenderingInterval = 100; // in milli sec
 
-
 interface TimerScreenProps {
     currentTimer: CurrentTimer,
 }

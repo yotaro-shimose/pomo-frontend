@@ -3,7 +3,7 @@ import { atom, selector } from "recoil";
 import { TaskList, Calendar } from "domain/entity";
 import { fetchTaskList, fetchCalendar } from "infrastructure/backend_api";
 import { userIdState } from "component/page/Main/state";
-import { isConfiguredState, userConfigState } from "component/organism/LoggedInContainer/state";
+import { isConfiguredState, userConfigState } from "component/page/Main/LoggedInContainer/state";
 
 export const taskListListState = selector<TaskList[]>({
   key: "taskList",

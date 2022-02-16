@@ -16,10 +16,10 @@ import { taskListListState, calendarListState, onlineConfigState, StepList } fro
 import { UserConfig } from "domain/value";
 
 // endpoint
-import Msg from "component/atom/Msg";
+import Msg from "component/shared/Msg";
 
 // API
-import { useUpdateUserConfig } from "../LoggedInContainer/state";
+import { useUpdateUserConfig } from "../../state";
 
 
 interface ConfigScreenProps {
