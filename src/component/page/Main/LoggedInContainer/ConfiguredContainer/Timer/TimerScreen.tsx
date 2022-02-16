@@ -47,6 +47,7 @@ const TimerScreen: FC<TimerScreenProps> = (props) => {
             setRemainInMilliSec(getRemainInMilliSec(props.currentTimer));
         }, RenderingInterval)
         return () => clearTimeout(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [remainInMilliSec]);
     return (
         <div className={classes.TimerScreen}>
