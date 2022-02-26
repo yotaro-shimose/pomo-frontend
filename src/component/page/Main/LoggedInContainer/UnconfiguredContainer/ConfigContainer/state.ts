@@ -4,6 +4,7 @@ import { TaskList, Calendar } from "domain/entity";
 import { fetchTaskList, fetchCalendar } from "infrastructure/backend_api";
 import { userIdState } from "component/page/Main/state";
 import { isConfiguredState, userConfigState } from "component/page/Main/LoggedInContainer/state";
+import { UserConfig } from "domain/value";
 
 export const taskListListState = selector<TaskList[]>({
   key: "taskList",
@@ -43,7 +44,7 @@ const initOnlineConfig = selector<OnlineConfig>({
     let taskListId;
     let calendarId;
     if (get(isConfiguredState)) {
-      const userConfig = get(userConfigState);
+      const userConfig = get(userConfigState) as UserConfig;
       taskListId = userConfig.taskListId;
       calendarId = userConfig.calendarId;
     } else {

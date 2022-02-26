@@ -9,7 +9,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 
 // State
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { taskListListState, calendarListState, onlineConfigState, StepList } from "./state";
 
 // interfaces
@@ -29,10 +29,16 @@ interface ConfigScreenProps {
 
 const ConfigContainer: FC<ConfigScreenProps> = (props: ConfigScreenProps) => {
   const userId = props.userId;
-  const taskListList = useRecoilValue(taskListListState);
-  const calendarList = useRecoilValue(calendarListState);
+  const taskListListLoadable = useRecoilValueLoadable(taskListListState);
+  const calendarListLoadable = useRecoilValueLoadable(calendarListState);
   const [onlineConfig, setOnlineConfig] = useRecoilState(onlineConfigState);
   const updateUserConfig = useUpdateUserConfig(userId);
+  if (taskListListLoadable.state !== "hasValue" || calendarListLoadable.state !== "hasValue") {
+    // TODO render loading contents;
+    return null;
+  }
+  const taskListList = taskListListLoadable.contents;
+  const calendarList = calendarListLoadable.contents;
 
   const nextStep = () => {
     if (onlineConfig.step !== StepList.TASKLIST) {

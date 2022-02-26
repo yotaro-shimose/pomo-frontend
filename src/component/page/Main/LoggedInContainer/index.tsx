@@ -9,17 +9,15 @@ import UnconfiguredContainer from "component/page/Main/LoggedInContainer/Unconfi
 // State
 import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 import {
-  isConfiguredState, userConfigState
+  isConfiguredState
 } from "component/page/Main/LoggedInContainer/state";
 import { userIdState } from "component/page/Main/state";
 
 
-
 const LoggedInContainer: FC = () => {
   const userId = useRecoilValue(userIdState);
-  const userConfigLoadable = useRecoilValueLoadable(userConfigState);
   const isConfiguredLoadable = useRecoilValueLoadable(isConfiguredState);
-  if (userConfigLoadable.state === "hasValue" && isConfiguredLoadable.state === "hasValue") {
+  if (isConfiguredLoadable.state === "hasValue") {
     const isConfigured = isConfiguredLoadable.contents;
     if (isConfigured) {
       return <ConfiguredContainer userId={userId} />;

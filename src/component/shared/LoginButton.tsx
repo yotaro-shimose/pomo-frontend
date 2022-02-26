@@ -41,7 +41,7 @@ const LoginButton: FC<LoginButtonProps> = (props) => {
     );
   }
   return (
-    <GoogleLogin
+    < GoogleLogin
       clientId={googleClientId}
       buttonText="Login"
       onSuccess={handleGoogleLogin}

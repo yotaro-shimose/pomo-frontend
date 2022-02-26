@@ -17,21 +17,20 @@ export const isConfiguredState = selector<boolean>({
   get: ({ get }) => get(rawUserConfigState) !== null,
 })
 
-export const userConfigState = selector<UserConfig>({
+export const userConfigState = selector<UserConfig | null>({
   key: "userConfig",
   get: ({ get }) => {
     const userConfig = get(rawUserConfigState);
     if (userConfig) {
       return userConfig;
     } else {
-      throw Error("User is not yet configured");
+      return null;
     }
   }
 })
 
 export const useUpdateUserConfig = (id: UserId) => {
-  const refresh = useRecoilRefresher_UNSTABLE();
-  const userConfigRefresh = () => refresh(userConfigState);
+  const userConfigRefresh = useRecoilRefresher_UNSTABLE(userConfigState);
   return (config: UserConfig) => {
     return updateUserConfig(id, config).then(() => userConfigRefresh()).catch(() => { throw Error("Could not load UserConfig") });
   }
